@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Marmitas Fit 🍱💪</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+body{background:#f2f2f2}
+
+/* HEADER */
+header{
+  background:#0f0f0f;
+  color:#d4af37;
+  padding:20px;
+  text-align:center;
+  font-size:26px;
+}
+
+/* MENU */
+nav{
+  background:#000;
+  padding:15px;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+nav a{
+  color:#d4af37;
+  text-decoration:none;
+  font-weight:bold;
+  cursor:pointer;
+}
+nav a:hover{color:#fff}
+
+/* SEÇÕES */
+section{
+  padding:40px;
+  display:none;
+}
+.active{display:block}
+
+/* FORM */
+.form{
+  max-width:400px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:10px;
+}
+.form input,.form button{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+}
+.form button{
+  background:#000;
+  border:none;
+  color:#d4af37;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* PRODUTOS */
+.produtos{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+.produto{
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+}
+.produto img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:8px;
+}
+.produto button{
+  background:#000;
+  color:#d4af37;
+  padding:10px;
+  border:none;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+/* CARRINHO */
+#carrinho ul{list-style:none;padding:0}
+#carrinho li{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:10px 0;
+  background:#fff;
+  padding:10px;
+  border-radius:5px;
+}
+#carrinho button{
+  background:red;
+  border:none;
+  color:white;
+  padding:5px 10px;
+  cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+  background:#000;
+  color:#d4af37;
+  text-align:center;
+  padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>Marmitas Fit 🍱💪</header>
+
+<nav>
+  <a onclick="mostrar('login')">Login</a>
+  <a onclick="mostrar('produtos')">Cardápio</a>
+  <a onclick="mostrar('pedidos')">Pedidos</a>
+  <a onclick="mostrar('carrinho')">Carrinho</a>
+</nav>
+
+<!-- LOGIN -->
+<section id="login" class="active">
+  <div class="form">
+    <h2>🔐 Login</h2>
+    <input id="usuario" placeholder="Usuário">
+    <input id="senha" type="password" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
+    <p id="msg"></p>
+  </div>
+</section>
+
+<!-- CARDÁPIO -->
+<section id="produtos">
+<h2>🍽️ Cardápio</h2><br>
+
+<h3>🥗 Marmitas Fit</h3><br>
+<div class="produtos">
+
+  <div class="produto">
+    <img src="Marmita de peixe e carne moida .jpeg">
+    <h3>Frango + Arroz Integral</h3>
+    <p>500g • R$ 18,00</p>
+    <button onclick="add('Frango + Arroz Integral', '500g', 18)">Adicionar</button>
+  </div>
+
+  <div class="produto">
+    <img src="Estrogonofe .jpeg">
+    <h3>Frango Xadrez</h3>
+    <p>550g • R$ 23,90</p>
+    <button onclick="add('Frango Xadrez', '550g', 23.90)">Adicionar</button>
+  </div>
+
+  <div class="produto">
+    <img src="Marmitas de varos sabores .jpeg">
+    <h3>Marmita Básica</h3>
+    <p>450g • R$ 23,60</p>
+    <button onclick="add('Marmita Básica', '450g', 23.60)">Adicionar</button>
+  </div>
+
+</div>
+
+<br><hr><br>
+
+<h3>🍲 Caldos</h3><br>
+<div class="produtos">
+
+  <div class="produto">
+    <img src="Caldos 1.jpeg">
+    <h3>Caldo Verde</h3>
+    <p>400ml • R$ 14,00</p>
+    <button onclick="add('Caldo Verde', '400ml', 14)">Adicionar</button>
+  </div>
+
+  <div class="produto">
+    <img src="Caldos 2.jpeg">
+    <h3>Caldo de Mocotó</h3>
+    <p>400ml • R$ 14,00</p>
+    <button onclick="add('Caldo de Mocotó', '400ml', 14)">Adicionar</button>
+  </div>
+
+</div>
+
+<br><hr><br>
+
+<h3>🍰 Sobremesas Fit</h3><br>
+<div class="produtos">
+
+  <div class="produto">
+    <img src="brownie-fit.jpg">
+    <h3>Brownie Fit</h3>
+    <p>120g • R$ 9,00</p>
+    <button onclick="add('Brownie Fit', '120g', 9)">Adicionar</button>
+  </div>
+
+  <div class="produto">
+    <img src="pudim-fit.jpg">
+    <h3>Pudim Fit</h3>
+    <p>150g • R$ 8,00</p>
+    <button onclick="add('Pudim Fit', '150g', 8)">Adicionar</button>
+  </div>
+
+</div>
+</section>
+
+<!-- PEDIDOS -->
+<section id="pedidos">
+<h2>✅ Pedido Finalizado</h2><br>
+<div class="form">
+  <p id="pedidoFinalizado">Nenhum pedido ainda.</p>
+</div>
+</section>
+
+<!-- CARRINHO -->
+<section id="carrinho">
+<h2>🧾 Carrinho</h2>
+<ul id="lista"></ul>
+<h3>Total: R$ <span id="total">0.00</span></h3><br>
+
+<button onclick="finalizar()" style="padding:12px;width:240px;background:#000;color:#d4af37;border:none;font-weight:bold;">
+Finalizar pelo WhatsApp
+</button>
+</section>
+
+<footer>© 2025 Marmitas Fit — Comida saudável todo dia</footer>
+
+<script>
+let total = 0;
+let logado = false;
+
+function mostrar(id){
+  if(!logado && id !== 'login'){
+    alert("Faça login primeiro!");
+    return;
+  }
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function login(){
+  if(usuario.value && senha.value){
+    logado = true;
+    mostrar('produtos');
+  }else{
+    msg.innerHTML = "❌ Preencha os campos";
+  }
+}
+
+function add(nome, peso, preco){
+  const li = document.createElement("li");
+  li.innerHTML = `
+    <span>${nome} (${peso}) - R$ ${preco.toFixed(2)}</span>
+    <button onclick="remover(this, ${preco})">❌</button>
+  `;
+  lista.appendChild(li);
+  total += preco;
+  atualizarTotal();
+}
+
+function remover(btn, preco){
+  btn.parentElement.remove();
+  total -= preco;
+  atualizarTotal();
+}
+
+function atualizarTotal(){
+  totalEl.textContent = total.toFixed(2);
+}
+const totalEl = document.getElementById("total");
+
+function finalizar(){
+  if(total === 0){
+    alert("Carrinho vazio!");
+    return;
+  }
+
+  let itens = [];
+  document.querySelectorAll("#lista li span").forEach(i=>{
+    itens.push(i.innerText);
+  });
+
+  let mensagem = "🍱 Pedido Marmitas Fit%0A%0A";
+  itens.forEach(i => mensagem += "• " + i + "%0A");
+  mensagem += %0A💰 *Total:* R$ ${total.toFixed(2)};
+
+  window.open("https://wa.me/11954537979?text=" + mensagem, "_blank");
+
+  lista.innerHTML = "";
+  total = 0;
+  atualizarTotal();
+  mostrar('pedidos');
+}
+</script>
+
+</body>
+</html>
