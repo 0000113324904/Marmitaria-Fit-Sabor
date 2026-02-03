@@ -291,11 +291,27 @@
 
             <h3>📍 Dados de Entrega</h3>
             <div class="form-group">
-                <input type="text" id="nome" placeholder="Seu nome">
+                <input type="text" id="nome" placeholder="Seu nome completo">
             </div>
-            <div class="form-group">
-                <input type="text" id="endereco" placeholder="Rua, número, bairro">
+
+            <div style="display: flex; gap: 10px;">
+                <div class="form-group" style="flex: 1;">
+                    <input type="text" id="cep" placeholder="CEP" maxlength="9">
+                </div>
+                <div class="form-group" style="flex: 2;">
+                    <input type="text" id="rua" placeholder="Rua / Logradouro">
+                </div>
             </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div class="form-group" style="flex: 1;">
+                    <input type="text" id="numero" placeholder="Nº / Compl.">
+                </div>
+                <div class="form-group" style="flex: 2;">
+                    <input type="text" id="bairro" placeholder="Bairro">
+                </div>
+            </div>
+
             <div class="form-group">
                 <label>Pagamento:</label>
                 <select id="pagamento">
@@ -312,7 +328,7 @@
     <div id="aba-pedidos" class="tab-content">
         <div class="order-form">
             <h2>📦 Informações úteis</h2>
-            <p>📍 Entregamos em toda a região central.</p>
+            <p>📍 Entregamos em toda a região da guaraoiranga.</p>
             <p>⏰ Almoço: 11h às 14h | Jantar: 18h às 21h.</p>
             <p>📞 Suporte: (11) 95453-7979</p>
             <hr style="border: 0; border-top: 1px solid var(--cinza-extra); margin: 20px 0;">
@@ -369,16 +385,27 @@
 
         function enviarWhatsApp() {
             const n = document.getElementById('nome').value;
-            const e = document.getElementById('endereco').value;
+            const cep = document.getElementById('cep').value;
+            const rua = document.getElementById('rua').value;
+            const num = document.getElementById('numero').value;
+            const bairro = document.getElementById('bairro').value;
             const pg = document.getElementById('pagamento').value;
             
-            if(!n || !e || carrinho.length === 0) { 
-                alert("Por favor, preencha seu nome, endereço e adicione itens ao carrinho!"); 
+            if(!n || !rua || !num || !bairro || carrinho.length === 0) { 
+                alert("Por favor, preencha todos os dados de entrega e adicione itens ao carrinho!"); 
                 return; 
             }
 
             let itensMsg = carrinho.map(i => `- ${i.nome} (R$ ${i.preco.toFixed(2)})`).join('%0A');
-            const msg = `*NOVO PEDIDO*%0A%0A*Cliente:* ${n}%0A*Endereço:* ${e}%0A%0A*Itens:*%0A${itensMsg}%0A%0A*Total:* R$ ${total.toFixed(2)}%0A*Pagamento:* ${pg}`;
+            
+            const msg = `*NOVO PEDIDO*%0A%0A` +
+                        `*Cliente:* ${n}%0A` +
+                        `*Endereço:* ${rua}, ${num}%0A` +
+                        `*Bairro:* ${bairro}%0A` +
+                        `*CEP:* ${cep}%0A%0A` +
+                        `*Itens:*%0A${itensMsg}%0A%0A` +
+                        `*Total:* R$ ${total.toFixed(2)}%0A` +
+                        `*Pagamento:* ${pg}`;
             
             window.open(`https://wa.me/5511954537979?text=${msg}`, '_blank');
         }
