@@ -5,22 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marmitaria Fit & Sabor</title>
 
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Marmitaria Fit & Sabor - Cardápio Online">
-    <meta property="og:description" content="Peça sua marmita fit deliciosa agora mesmo pelo nosso cardápio digital!">
-    <meta property="og:url" content="https://0000113324904.github.io/marmitas-fit01/">
-    <meta property="og:image" content="https://0000113324904.github.io/marmitas-fit01/frango-xadrez.jpeg">
     <style>
         :root {
-            --primaria: #e67e22;
-            --secundaria: #27ae60;
+            --primaria: #6a0dad; 
+            --primaria-clara: #8e44ad;
+            --primaria-escura: #4b0082;
             --escura: #2d3436;
             --clara: #f9f9f9;
             --cinza-extra: #dfe6e9;
+            --branco: #ffffff;
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             background-color: var(--clara);
             color: var(--escura);
@@ -29,8 +26,18 @@
         header {
             background-color: var(--primaria);
             color: white;
-            padding: 15px;
-            text-align: center;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        header img {
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid white;
         }
 
         .tabs-nav {
@@ -54,123 +61,167 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 8px;
+            transition: 0.3s;
         }
 
         .tab-button.active {
             color: var(--primaria);
             border-bottom: 3px solid var(--primaria);
+            background-color: #f8f0ff;
         }
 
         #cart-count {
             background: var(--primaria);
             color: white;
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 50%;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
         }
 
         .tab-content {
             display: none;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: auto;
             padding: 20px;
-            animation: fadeIn 0.3s;
+            animation: fadeIn 0.4s ease;
         }
 
         .tab-content.active { display: block; }
 
+        .dia-sessao {
+            margin-top: 40px;
+            border-left: 6px solid var(--primaria); 
+            padding: 12px 20px;
+            color: var(--primaria-escura);
+            background: #f3e5f5;
+            border-radius: 4px 15px 15px 4px;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            font-weight: 800;
+        }
+
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
         }
 
         .card {
             background: white;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            position: relative;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
+            border: 1px solid var(--cinza-extra);
+            transition: all 0.3s ease;
         }
 
-        .tag-peso {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--secundaria);
+        .card:hover { 
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(106, 13, 173, 0.15);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .card:hover .card-img { transform: scale(1.05); }
+
+        .card-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card h3 { 
+            margin: 0 0 15px 0; 
+            font-size: 1.1rem; 
+            color: var(--escura);
+            min-height: 2.5em;
+            line-height: 1.4;
+        }
+
+        .opcoes-peso, .opcoes-ml, .opcoes-extras {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .btn-preco {
+            background-color: var(--branco);
+            border: 2px solid #eee;
+            color: #555;
+            padding: 10px 5px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .btn-preco:hover {
+            border-color: var(--primaria);
+            background-color: var(--primaria);
             color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            z-index: 10;
         }
 
-        .card img { width: 100%; height: 200px; object-fit: cover; }
-        
-        .card-content { 
-            padding: 15px; 
-            flex-grow: 1; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-        }
-
-        .btn-add {
-            background-color: var(--secundaria);
+        .btn-acao-roxa {
+            background: linear-gradient(135deg, var(--primaria), var(--primaria-escura));
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 14px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
+            width: 100%;
+            margin-top: 15px;
+            text-transform: uppercase;
         }
 
         .order-form {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .cart-items-list {
-            border-bottom: 2px dashed var(--cinza-extra);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-top: 20px;
         }
 
         .form-group { margin-bottom: 15px; }
-        input, select {
-            width: 100%; padding: 12px; border: 1px solid var(--cinza-extra);
-            border-radius: 8px; box-sizing: border-box;
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #f1f1f1;
+            border-radius: 10px;
+            box-sizing: border-box;
+            outline: none;
         }
 
         .btn-whatsapp { 
-            background-color: #25d366; 
-            color: white; 
-            border: none; 
-            padding: 15px; 
-            width: 100%; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            cursor: pointer;
+            background: linear-gradient(135deg, #8e44ad, #6a0dad); 
+            color: white; border: none; padding: 18px; width: 100%; 
+            border-radius: 15px; font-weight: 800; cursor: pointer;
+            font-size: 1.1rem; margin-top: 20px;
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .star { font-size: 2.2rem; cursor: pointer; color: #dfe6e9; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <header>
+        <img src="Logo.jpeg" alt="Logo">
         <h1 style="margin:0">Marmitaria Fit & Sabor</h1>
     </header>
 
@@ -179,160 +230,218 @@
         <button class="tab-button" onclick="abrirAba(event, 'aba-detalhes')">
             🛒 Carrinho <span id="cart-count">0</span>
         </button>
-        <button class="tab-button" onclick="abrirAba(event, 'aba-pedidos')">📦 Info</button>
+        <button class="tab-button" onclick="abrirAba(event, 'aba-pedidos')">📦 Entrega & Info</button>
     </nav>
 
     <div id="aba-cardapio" class="tab-content active">
-        <h2>Escolha suas delícias</h2>
+        <h2 class="dia-sessao">Segunda-Feira</h2>
         <div class="menu-grid">
-            
             <div class="card">
-                <span class="tag-peso">1kg</span>
-                <img src="frango-xadrez.jpeg" alt="Frango Xadrez">
-                <div class="card-content">
-                    <h3>Frango Xadrez</h3>
-                    <p>Legumes frescos misturados ao frango suculento.</p>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:bold; color:var(--secundaria)">R$ 23,90</span>
-                        <button class="btn-add" onclick="addAoCarrinho('Frango Xadrez', 23.90)">Adicionar</button>
+                <img src="frango-xadrez.jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Frango em cubos, cebola e pimentões</h3>
+                    <div class="opcoes-peso"></div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="Marmitas- de- varios- sabores .jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Arroz, cenoura e carne</h3>
+                    <div class="opcoes-peso"></div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="Marmitas-de -varios -sabor -diferentes .jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Repolho, frango e arroz</h3>
+                    <div class="opcoes-peso"></div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="dia-sessao">Terça-Feira</h2>
+        <div class="menu-grid">
+            <div class="card">
+                <img src="Marmita arroz branco strogonoff de carne e mix de legumes.jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Arroz branco strogonoff de carne e mix de legumes</h3>
+                    <div class="opcoes-peso"></div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="Marmita arroz intregal carne de panela e cenoura ralada  .jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Arroz integral, carne de panela e cenoura ralada</h3>
+                    <div class="opcoes-peso"></div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="Marmitas de puree de mandioca com cenoura e frango desfiado com creme de milho .jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Purê de mandioca com cenoura e frango com creme de milho</h3>
+                    <div class="opcoes-peso"></div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="dia-sessao">Quarta-Feira</h2>
+        <div class="menu-grid">
+            <div class="card">
+                <img src="Marmitas de  carne moida e salada e berteraba .jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Carne moída, salada e beterraba</h3>
+                    <div class="opcoes-peso"></div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="Salada com legumes e pure e frango .jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Salada com legumes e pure e frango</h3>
+                    <div class="opcoes-peso"></div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="Sobremesa- de -bolos de pote.jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Sobremesa: Bolos de Pote Variados</h3>
+                    <p style="color: #666; font-size: 0.85rem; margin-bottom: 10px;">Chocolate, Leite Ninho, Maracujá ou Coco.</p>
+                    <button class="btn-acao-roxa" onclick="addAoCarrinho('Bolo de Pote', 'Unidade', 10.00)">ADICIONAR - R$ 10,00</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="dia-sessao">Quinta-Feira</h2>
+        <div class="menu-grid">
+            <div class="card">
+                <img src="Caldo- de- verde.jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Caldo Verde (acompanha pão e carnes)</h3>
+                    <div class="opcoes-ml"></div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="Caldo- de- Mocoto.jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Caldo de Mocotó (acompanha pão e carnes)</h3>
+                    <div class="opcoes-ml"></div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="Caldo 3 .jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Caldo de bacon (acompanha pão e carnes)</h3>
+                    <div class="opcoes-ml"></div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="dia-sessao">Sexta-Feira</h2>
+        <div class="menu-grid">
+            <div class="card">
+                <img src="Pão - recheado.jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Pão recheado com queijo e presunto</h3>
+                    <button class="btn-acao-roxa" onclick="addAoCarrinho('Pão recheado', 'Unidade', 30.00)">ADICIONAR - R$ 30,00</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="Pao caseiro.jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Pão Caseiro (Receita da Casa)</h3>
+                    <button class="btn-acao-roxa" onclick="addAoCarrinho('Pão caseiro', 'Unidade', 25.00)">ADICIONAR - R$ 25,00</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="dia-sessao">Acompanhamentos & Extras</h2>
+        <div class="menu-grid">
+            <div class="card">
+                <img src="Acompanhamentos da semanas .jpeg" class="card-img">
+                <div class="card-info">
+                    <h3>Porções de Acompanhamentos</h3>
+                    <div class="opcoes-extras">
+                        <button class="btn-preco" onclick="addAoCarrinho('Porção Arroz Branco', 'Extra', 8.00)">Arroz Branco - R$ 8,00</button>
+                        <button class="btn-preco" onclick="addAoCarrinho('Porção Arroz Integral', 'Extra', 9.00)">Arroz Integral - R$ 9,00</button>
+                        <button class="btn-preco" onclick="addAoCarrinho('Porção Feijão', 'Extra', 7.00)">Feijão Caseiro - R$ 7,00</button>
+                        <button class="btn-preco" onclick="addAoCarrinho('Porção Purê de Mandioca', 'Extra', 10.00)">Purê Mandioca - R$ 10,00</button>
+                        <button class="btn-preco" onclick="addAoCarrinho('Porção Mix Legumes', 'Extra', 10.00)">Mix Legumes - R$ 10,00</button>
+                        <button class="btn-preco" onclick="addAoCarrinho('Porção Farofa', 'Extra', 5.00)">Farofa - R$ 5,00</button>
                     </div>
                 </div>
             </div>
 
             <div class="card">
-                <span class="tag-peso">350g</span>
-                <img src="Marmitas- de- varios- sabores .jpeg" alt="Marmita Carne">
-                <div class="card-content">
-                    <h3>Marmita de vários sabores</h3>
-                    <p>Cenoura, arroz e carne moída.</p>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:bold; color:var(--secundaria)">R$ 23,90</span>
-                        <button class="btn-add" onclick="addAoCarrinho('Carne Moída', 23.90)">Adicionar</button>
+                <div class="card-info">
+                    <h3>Misturas & Proteínas (Adicional)</h3>
+                    <p style="color: #666; font-size: 0.85rem; margin-bottom: 15px;">Adicione mais proteína ao seu prato.</p>
+                    <div class="opcoes-extras">
+                        <button class="btn-preco" onclick="addAoCarrinho('Extra: Frango Desfiado', '100g', 12.00)">Frango (100g) - R$ 12,00</button>
+                        <button class="btn-preco" onclick="addAoCarrinho('Extra: Carne Moída', '100g', 14.00)">Carne Moída (100g) - R$ 14,00</button>
+                        <button class="btn-preco" onclick="addAoCarrinho('Extra: Carne de Panela', '100g', 16.00)">Carne Panela (100g) - R$ 16,00</button>
+                        <button class="btn-preco" onclick="addAoCarrinho('Extra: Strogonoff Carne', '100g', 18.00)">Strogonoff (100g) - R$ 18,00</button>
+                        <button class="btn-preco" onclick="addAoCarrinho('Extra: Ovo Frito/Cozido', 'Unid.', 3.00)">Ovo (Unid) - R$ 3,00</button>
                     </div>
                 </div>
             </div>
-
-            <div class="card">
-                <span class="tag-peso">350g</span>
-                <img src="Marmitas-de -varios -sabor -diferentes .jpeg" alt="Marmita Salada">
-                <div class="card-content">
-                    <h3>Marmita Fit Frango</h3>
-                    <p>Acompanha salada fresca, purê e frango.</p>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:bold; color:var(--secundaria)">R$ 23,90</span>
-                        <button class="btn-add" onclick="addAoCarrinho('Fit Frango', 23.90)">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="tag-peso">350ml</span>
-                <img src="Caldo- de- verde.jpeg" alt="Caldo Verde">
-                <div class="card-content">
-                    <h3>Caldo Verde</h3>
-                    <p>Acompanha pão artesanal e pedaços de carne.</p>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:bold; color:var(--secundaria)">R$ 14,00</span>
-                        <button class="btn-add" onclick="addAoCarrinho('Caldo Verde', 14.00)">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="tag-peso">350ml</span>
-                <img src="Caldo- de- Mocoto.jpeg" alt="Caldo Mocoto">
-                <div class="card-content">
-                    <h3>Caldo Mocoto</h3>
-                    <p>Acompanha pão artesanal e pedaços de mocoto.</p>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:bold; color:var(--secundaria)">R$ 14,00</span>
-                        <button class="btn-add" onclick="addAoCarrinho('Caldo Mocoto', 14.00)">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="tag-peso"></span>
-                <img src="Pão - recheado.jpeg" alt="Pão Recheado">
-                <div class="card-content">
-                    <h3>Pão Recheado</h3>
-                    <p>Acompanha pão recheado com queijo e presunto.</p>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:bold; color:var(--secundaria)">R$ 30,00</span>
-                        <button class="btn-add" onclick="addAoCarrinho('Pão Recheado', 30.00)">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="tag-peso">20ml</span>
-                <img src="Sobremesa- de -bolos de pote.jpeg" alt="Sobremesa">
-                <div class="card-content">
-                    <h3>Sobremesa- de -bolos de pote.jpeg</h3>
-                    <p>Bolos de pote diversos sabores tem mracuja,coco,chocolate.</p>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:bold; color:var(--secundaria)">R$ 12,00</span>
-                        <button class="btn-add" onclick="addAoCarrinho('Sobremesa', 12.00)">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-        </div> 
+        </div>
     </div>
 
     <div id="aba-detalhes" class="tab-content">
         <div class="order-form">
-            <h2>🛒 Seu Carrinho</h2>
-            <div id="lista-carrinho" class="cart-items-list">
-                <p style="color:#999">O carrinho está vazio...</p>
+            <h2 style="color: var(--primaria);">🛒 Seu Carrinho</h2>
+            <div id="lista-carrinho" style="margin: 20px 0; min-height: 50px;">
+                <p style="color:#999; text-align: center;">O carrinho está vazio...</p>
             </div>
-            <div style="margin-bottom: 20px; font-weight:bold; font-size:1.2rem; text-align:right;">
+            <div style="margin-bottom: 25px; font-weight:800; font-size:1.4rem; text-align:right; color: var(--primaria-escura);">
                 Total: R$ <span id="total-carrinho">0,00</span>
             </div>
 
-            <h3>📍 Dados de Entrega</h3>
-            <div class="form-group">
-                <input type="text" id="nome" placeholder="Seu nome completo">
-            </div>
-
+            <h3 style="border-bottom: 2px solid #eee; padding-bottom: 10px;">📍 Dados de Entrega</h3>
+            <div class="form-group"><input type="text" id="nome" placeholder="Seu nome completo"></div>
+            <div class="form-group"><input type="tel" id="telefone" placeholder="WhatsApp (11) 99999-9999"></div>
+            
             <div style="display: flex; gap: 10px;">
-                <div class="form-group" style="flex: 1;">
-                    <input type="text" id="cep" placeholder="CEP" maxlength="9">
-                </div>
-                <div class="form-group" style="flex: 2;">
-                    <input type="text" id="rua" placeholder="Rua / Logradouro">
-                </div>
+                <div class="form-group" style="flex: 1;"><input type="text" id="cep" placeholder="CEP"></div>
+                <div class="form-group" style="flex: 2;"><input type="text" id="rua" placeholder="Rua / Avenida"></div>
             </div>
-
             <div style="display: flex; gap: 10px;">
-                <div class="form-group" style="flex: 1;">
-                    <input type="text" id="numero" placeholder="Nº / Compl.">
-                </div>
-                <div class="form-group" style="flex: 2;">
-                    <input type="text" id="bairro" placeholder="Bairro">
-                </div>
+                <div class="form-group" style="flex: 1;"><input type="text" id="numero" placeholder="Nº"></div>
+                <div class="form-group" style="flex: 2;"><input type="text" id="bairro" placeholder="Bairro"></div>
             </div>
-
+            
             <div class="form-group">
-                <label>Pagamento:</label>
+                <label style="font-weight: bold; display: block; margin-bottom: 5px;">Forma de Pagamento:</label>
                 <select id="pagamento">
                     <option value="Pix">Pix</option>
-                    <option value="Cartão">Cartão</option>
+                    <option value="Cartão de Débito">Cartão de Débito</option>
+                    <option value="Cartão de Crédito">Cartão de Crédito</option>
                     <option value="Dinheiro">Dinheiro</option>
                 </select>
             </div>
+            
             <button class="btn-whatsapp" onclick="enviarWhatsApp()">🚀 FINALIZAR PEDIDO NO WHATSAPP</button>
-            <button onclick="limparCarrinho()" style="margin-top:15px; background:none; border:none; color:red; cursor:pointer; width:100%; font-size: 0.9rem;">🗑️ Esvaziar Carrinho</button>
+            <button onclick="limparCarrinho()" style="margin-top:20px; background:none; border:none; color:#d63031; cursor:pointer; width:100%; font-weight: bold;">🗑️ Esvaziar Carrinho</button>
         </div>
     </div>
 
     <div id="aba-pedidos" class="tab-content">
         <div class="order-form">
-            <h2>📦 Informações úteis</h2>
-            <p>📍 Entregamos em toda a região da Guarapiranga.</p>
-            <p>⏰ Almoço: 11h às 14h | Jantar: 18h às 21h.</p>
-            <p>📞 Suporte: (11) 95453-7979</p>
-            <hr style="border: 0; border-top: 1px solid var(--cinza-extra); margin: 20px 0;">
-            <p style="font-size: 0.9rem; color: #7f8c8d;">As marmitas são enviadas resfriadas ou quentes, conforme sua preferência. Informe no WhatsApp!</p>
+            <h2 style="color: var(--primaria);">📦 Informações Adicionais</h2>
+            <p>🛵 <strong>Entregas:</strong> Toda a região da Guarapiranga e proximidades.</p>
+            <p>⏰ <strong>Horários:</strong> Almoço (11:00 até 14:00) e Jantar (18:00 até 21:00).</p>
+            <p>💬 <strong>Dúvidas?</strong> Chame no (11) 95453-7979</p>
+
+            <div style="text-align: center; background: #fdf6ff; padding: 25px; border-radius: 20px; border: 2px dashed var(--primaria); margin-top: 30px;">
+                <p style="font-weight: 800; margin-bottom: 15px; color: var(--primaria-escura);">Gostou do nosso sabor? Avalie! ⭐</p>
+                <div class="estrelas">
+                    <span onclick="avaliar(1)" class="star">★</span>
+                    <span onclick="avaliar(2)" class="star">★</span>
+                    <span onclick="avaliar(3)" class="star">★</span>
+                    <span onclick="avaliar(4)" class="star">★</span>
+                    <span onclick="avaliar(5)" class="star">★</span>
+                </div>
+                <p id="feedback-txt" style="font-weight: bold; margin-top: 10px; color: var(--primaria);"></p>
+            </div>
         </div>
     </div>
 
@@ -340,75 +449,129 @@
         let carrinho = [];
         let total = 0;
 
-        function abrirAba(evt, nomeAba) {
-            let i, content, buttons;
-            content = document.getElementsByClassName("tab-content");
-            for (i = 0; i < content.length; i++) { content[i].classList.remove("active"); }
-            buttons = document.getElementsByClassName("tab-button");
-            for (i = 0; i < buttons.length; i++) { buttons[i].classList.remove("active"); }
-            document.getElementById(nomeAba).classList.add("active");
-            evt.currentTarget.classList.add("active");
+        const tabelaPrecos = [
+            { t: '250', v: 20.60 },
+            { t: '350', v: 22.60 },
+            { t: '400', v: 24.60 },
+            { t: '500', v: 26.65 }
+        ];
+
+        function renderizarBotoesMarmitas() {
+            document.querySelectorAll('.opcoes-peso').forEach(container => {
+                const prato = container.closest('.card').querySelector('h3').innerText;
+                tabelaPrecos.forEach(p => {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn-preco';
+                    btn.innerText = `${p.t}g - R$ ${p.v.toFixed(2).replace('.',',')}`;
+                    btn.onclick = () => addAoCarrinho(prato, p.t + 'g', p.v);
+                    container.appendChild(btn);
+                });
+            });
         }
 
-        function addAoCarrinho(nome, preco) {
-            carrinho.push({nome, preco});
+        function renderizarBotoesCaldos() {
+            document.querySelectorAll('.opcoes-ml').forEach(container => {
+                const prato = container.closest('.card').querySelector('h3').innerText;
+                tabelaPrecos.forEach(p => {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn-preco';
+                    btn.innerText = `${p.t}ml - R$ ${p.v.toFixed(2).replace('.',',')}`;
+                    btn.onclick = () => addAoCarrinho(prato, p.t + 'ml', p.v);
+                    container.appendChild(btn);
+                });
+            });
+        }
+
+        function abrirAba(evt, nomeAba) {
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+            document.querySelectorAll(".tab-button").forEach(b => b.classList.remove("active"));
+            document.getElementById(nomeAba).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            window.scrollTo(0,0);
+        }
+
+        function addAoCarrinho(nome, medida, preco) {
+            carrinho.push({nome: `${nome} (${medida})`, preco});
             total += preco;
             atualizarCarrinho();
-            alert(nome + " adicionado ao carrinho!");
+            
+            const alertBox = document.createElement('div');
+            alertBox.style = "position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--primaria); color:white; padding:10px 20px; border-radius:30px; z-index:1000; font-weight:bold;";
+            alertBox.innerText = `✅ ${nome} adicionado!`;
+            document.body.appendChild(alertBox);
+            setTimeout(() => alertBox.remove(), 2000);
         }
 
         function atualizarCarrinho() {
             document.getElementById('cart-count').innerText = carrinho.length;
             document.getElementById('total-carrinho').innerText = total.toFixed(2).replace('.', ',');
-            
             const lista = document.getElementById('lista-carrinho');
+            
             if (carrinho.length === 0) {
-                lista.innerHTML = '<p style="color:#999">O carrinho está vazio...</p>';
+                lista.innerHTML = '<p style="color:#999; text-align:center;">O carrinho está vazio...</p>';
                 return;
             }
-
-            lista.innerHTML = carrinho.map(item => `
-                <div class="cart-item">
-                    <span>${item.nome}</span>
-                    <span>R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+            
+            lista.innerHTML = carrinho.map((item, index) => `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; background:#f9f9f9; padding:10px; border-radius:10px; border: 1px solid #eee;">
+                    <span style="font-size:0.9rem; font-weight:600;">${item.nome}</span>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:0.8rem; color:var(--primaria);">R$ ${item.preco.toFixed(2).replace('.',',')}</span>
+                        <button onclick="removerItem(${index})" style="background:#ff7675; border:none; color:white; padding:5px 10px; border-radius:8px; cursor:pointer;">X</button>
+                    </div>
                 </div>
             `).join('');
         }
 
+        function removerItem(index) {
+            total -= carrinho[index].preco;
+            carrinho.splice(index, 1);
+            atualizarCarrinho();
+        }
+
         function limparCarrinho() {
-            if(confirm("Deseja realmente limpar o carrinho?")) {
+            if(confirm("Deseja limpar todo o carrinho?")) {
                 carrinho = [];
                 total = 0;
                 atualizarCarrinho();
             }
         }
 
+        function avaliar(n) {
+            const estrelas = document.querySelectorAll('.star');
+            estrelas.forEach((s, i) => s.style.color = i < n ? "#f1c40f" : "#dfe6e9");
+            document.getElementById('feedback-txt').innerText = `Obrigado por avaliar com ${n} estrelas!`;
+        }
+
         function enviarWhatsApp() {
             const n = document.getElementById('nome').value;
+            const tel = document.getElementById('telefone').value;
             const cep = document.getElementById('cep').value;
             const rua = document.getElementById('rua').value;
             const num = document.getElementById('numero').value;
             const bairro = document.getElementById('bairro').value;
-            const pg = document.getElementById('pagamento').value;
-            
-            if(!n || !rua || !num || !bairro || carrinho.length === 0) { 
-                alert("Por favor, preencha todos os dados de entrega e adicione itens ao carrinho!"); 
+            const pag = document.getElementById('pagamento').value;
+
+            if(!n || !tel || !rua || carrinho.length === 0) { 
+                alert("Por favor, preencha nome, telefone, endereço e adicione itens ao carrinho!"); 
                 return; 
             }
-
-            let itensMsg = carrinho.map(i => `- ${i.nome} (R$ ${i.preco.toFixed(2)})`).join('%0A');
             
-            const msg = `*NOVO PEDIDO*%0A%0A` +
+            let itensMsg = carrinho.map(i => `• ${i.nome} - R$ ${i.preco.toFixed(2).replace('.',',')}`).join('%0A');
+            const msg = `*NOVO PEDIDO - FIT %26 SABOR*%0A%0A` +
                         `*Cliente:* ${n}%0A` +
-                        `*Endereço:* ${rua}, ${num}%0A` +
-                        `*Bairro:* ${bairro}%0A` +
-                        `*CEP:* ${cep}%0A%0A` +
+                        `*WhatsApp:* ${tel}%0A` +
+                        `*Endereço:* ${rua}, ${num} - ${bairro}%0A` +
+                        `*CEP:* ${cep}%0A` +
+                        `*Pagamento:* ${pag}%0A%0A` +
                         `*Itens:*%0A${itensMsg}%0A%0A` +
-                        `*Total:* R$ ${total.toFixed(2)}%0A` +
-                        `*Pagamento:* ${pg}`;
-            
+                        `*TOTAL: R$ ${total.toFixed(2).replace('.',',')}*`;
+
             window.open(`https://wa.me/5511954537979?text=${msg}`, '_blank');
         }
+
+        renderizarBotoesMarmitas();
+        renderizarBotoesCaldos();
     </script>
 </body>
 </html>
